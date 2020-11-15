@@ -14,6 +14,8 @@ const App = ({sdk}:Props) => {
     sdk.field.setValue(text).then(t => setValue(t))
   }
 
+  const textMaxLength = 1000;
+
   sdk.window.startAutoResizer();
   console.log("test123");
   console.log(sdk);
@@ -24,30 +26,36 @@ const App = ({sdk}:Props) => {
 
   sdk.entry.fields.name.onValueChanged(onNameChanged)
 
+
+  const getWiki = (lang:string) =>{
+    return wiki({ apiUrl: `https://${lang}.wikipedia.org/w/api.php` })
+        .page(name)
+        .then(res =>  res.summary())
+        .then(summary => {
+          if(summary.length < textMaxLength){
+            return wiki({ apiUrl: `https://${lang}.wikipedia.org/w/api.php` })
+                .page(name)
+                .then(res =>  res.content())
+                .then(content => {
+                  let result = summary;
+                  for (let i = 0; i < content.length-1 && result.length < textMaxLength; i++) {
+                    result += `\n\n${content[i].title}\n${content[i].content}`
+                  }
+                  return result;
+                })
+          }
+          return summary
+        })
+        .catch(err => console.log(err))
+  }
+
   wiki().page("batman");
 
   const onClick = () => {
     Promise.all([
-      fetch(`https://pl.wikipedia.org/w/api.php?format=json&action=query&redirects=&prop=extracts&explaintext=&exintro=&titles=${name}&origin=*`)
-          .then(res => res.json())
-          .then(res => {
-                const id = Object.keys(res.query.pages)[0];
-                if (!id || id === '-1') {
-                  throw new Error('No article found');
-                }
-                return res.query.pages[id].extract})
-          .catch(err => console.log(err))
-      ,
-      fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&redirects=&prop=extracts&explaintext=&exintro=&titles=${name}&origin=*`)
-          .then(res => res.json())
-          .then(res => {
-            const id = Object.keys(res.query.pages)[0];
-            if (!id || id === '-1') {
-              throw new Error('No article found');
-            }
-            return res.query.pages[id].extract})
-          .catch(err => console.log(err))
-        ]).then(([pl, en]) =>
+      getWiki("pl").catch(err => console.log(err)),
+      getWiki("en").catch(err => console.log(err))])
+        .then(([pl, en]) =>
     {
       if(!pl && !en){
         setValue("No page found on the wiki")
