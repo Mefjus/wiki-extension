@@ -77894,13 +77894,16 @@ var wiki_text_1 = __importDefault(require("./extensions/wiki-extension/wiki-text
 
 var App = function (_a) {
   var sdk = _a.sdk;
-  return react_1.default.createElement(react_router_dom_1.BrowserRouter, null, react_1.default.createElement(react_router_dom_1.Switch, null, react_1.default.createElement(react_router_dom_1.Route, {
+  return react_1.default.createElement(react_router_dom_1.HashRouter, {
+    basename: "/"
+  }, react_1.default.createElement(react_router_dom_1.Switch, null, react_1.default.createElement("div", null, react_1.default.createElement(react_router_dom_1.Route, {
     path: "/wiki-text"
   }, react_1.default.createElement(wiki_text_1.default, {
     sdk: sdk
   })), react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/"
-  }, react_1.default.createElement("p", null, "test"))));
+    path: "/",
+    exact: true
+  }, react_1.default.createElement("p", null, "test")))));
 };
 
 contentful_ui_extensions_sdk_1.init(function (sdk) {
@@ -77951,7 +77954,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50865" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51478" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
