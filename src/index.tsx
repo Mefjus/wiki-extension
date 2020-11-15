@@ -5,7 +5,7 @@ import {Textarea, Button} from "@contentful/forma-36-react-components"
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import './index.css';
-
+import wiki from "wikijs"
 
 const App = ({sdk}:Props) => {
   const [value, setValue] = useState(sdk.field.getValue())
@@ -15,7 +15,7 @@ const App = ({sdk}:Props) => {
   }
 
   sdk.window.startAutoResizer();
-
+  console.log("test123");
   console.log(sdk);
   const onNameChanged = (text:any) => {
     if(text != name)
@@ -24,6 +24,7 @@ const App = ({sdk}:Props) => {
 
   sdk.entry.fields.name.onValueChanged(onNameChanged)
 
+  wiki().page("batman");
 
   const onClick = () => {
     Promise.all([
