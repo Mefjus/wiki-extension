@@ -77897,13 +77897,13 @@ var App = function (_a) {
   return react_1.default.createElement(react_router_dom_1.HashRouter, {
     basename: "/"
   }, react_1.default.createElement(react_router_dom_1.Switch, null, react_1.default.createElement("div", null, react_1.default.createElement(react_router_dom_1.Route, {
+    exact: true,
+    path: "/"
+  }, react_1.default.createElement("p", null, "test")), react_1.default.createElement(react_router_dom_1.Route, {
     path: "/wiki-text"
   }, react_1.default.createElement(wiki_text_1.default, {
     sdk: sdk
-  })), react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/",
-    exact: true
-  }, react_1.default.createElement("p", null, "test")))));
+  })))));
 };
 
 contentful_ui_extensions_sdk_1.init(function (sdk) {
